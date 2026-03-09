@@ -4,17 +4,398 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Düğün Takip Otomasyonu - İlerleme Bloğu</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #111118;
+            --surface2: #18181f;
+            --border: rgba(255,255,255,0.07);
+            --gold: #c9a96e;
+            --gold-light: #e8cc9a;
+            --gold-dim: rgba(201,169,110,0.15);
+            --text: #e8e4dc;
+            --text-muted: #7a7570;
+            --text-soft: #b0a898;
+            --accent: #8b6fd4;
+            --accent-dim: rgba(139,111,212,0.12);
+            --green: #5aaf8a;
+            --green-dim: rgba(90,175,138,0.12);
+            --radius: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.6;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: -30vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 60vh;
+            background: radial-gradient(ellipse, rgba(201,169,110,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HEADER */
+        header { padding: 72px 0 56px; }
+        .header-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            display: block;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.1s forwards;
+        }
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 6vw, 58px);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 0.7s 0.2s forwards;
+        }
+        header h1 em { font-style: italic; color: var(--gold-light); }
+        header h2 {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.35s forwards;
+        }
+        .header-divider {
+            width: 48px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            margin: 24px 0 20px;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.45s forwards;
+        }
+        .project-meta {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.55s forwards;
+        }
+        .meta-item { display: flex; align-items: center; gap: 8px; }
+        .meta-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .meta-value { font-size: 13px; color: var(--text-soft); font-weight: 400; }
+        .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); opacity: 0.5; }
+
+        /* CARDS */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover { border-color: rgba(201,169,110,0.2); }
+        .card:hover::before { opacity: 0.5; }
+
+        /* ABOUT */
+        #hakkinda {
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.65s forwards;
+        }
+        #hakkinda h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--gold-light);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #hakkinda h3::before {
+            content: '01';
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+        #hakkinda p { font-size: 14.5px; line-height: 1.8; color: var(--text-soft); }
+
+        /* REPORTS */
+        #ilerleme-raporlari {
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.75s forwards;
+        }
+        .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; }
+        .section-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-header h3::before {
+            content: '02';
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+        .rapor-kart { margin-bottom: 20px; }
+        .rapor-baslik {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .rapor-baslik h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 300;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .hafta-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: var(--gold-dim);
+            border: 1px solid rgba(201,169,110,0.3);
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--gold);
+            font-weight: 500;
+        }
+        .rapor-tarih {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            background: var(--surface2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        .rapor-icerik h5 {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: 'DM Mono', monospace;
+            margin: 24px 0 12px;
+        }
+        .rapor-icerik h5:first-child { margin-top: 0; }
+        .rapor-icerik p { font-size: 14px; line-height: 1.8; color: var(--text-soft); }
+        .rapor-icerik ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .rapor-icerik ul li {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--text-soft);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .rapor-icerik ul li::before {
+            content: '→';
+            color: var(--gold);
+            opacity: 0.6;
+            flex-shrink: 0;
+            margin-top: 1px;
+            font-size: 12px;
+        }
+        .rapor-icerik ul li strong { color: var(--text); font-weight: 500; }
+        .rapor-icerik code {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--gold-light);
+            padding: 1px 7px;
+            border-radius: 5px;
+        }
+        .tech-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+        .chip {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid;
+            letter-spacing: 0.05em;
+        }
+        .chip-gold { background: var(--gold-dim); border-color: rgba(201,169,110,0.25); color: var(--gold-light); }
+        .chip-purple { background: var(--accent-dim); border-color: rgba(139,111,212,0.25); color: #b49ee0; }
+        .chip-green { background: var(--green-dim); border-color: rgba(90,175,138,0.25); color: var(--green); }
+        .hedefler-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .hedef-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--text-soft);
+            line-height: 1.5;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .hedef-item:hover { border-color: rgba(90,175,138,0.25); background: var(--green-dim); }
+        .hedef-item::before { content: '◇'; color: var(--green); font-size: 10px; margin-top: 2px; flex-shrink: 0; }
+        .ilerleme-bar-container {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid var(--border);
+        }
+        .ilerleme-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .ilerleme-etiket {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .ilerleme-yuzde {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--gold-light);
+            font-weight: 300;
+        }
+        .ilerleme-bar {
+            height: 4px;
+            background: var(--surface2);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .ilerleme-dolu {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 4px;
+            position: relative;
+            animation: growBar 1.4s 1s cubic-bezier(0.4,0,0.2,1) both;
+        }
+        .ilerleme-dolu::after {
+            content: '';
+            position: absolute;
+            right: -1px; top: -2px;
+            width: 6px; height: 8px;
+            background: var(--gold-light);
+            border-radius: 3px;
+            box-shadow: 0 0 8px var(--gold);
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            position: relative;
+            z-index: 1;
+        }
+        footer p {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        footer span { color: var(--gold); opacity: 0.7; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes growBar {
+            from { width: 0 !important; }
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 24px 20px; }
+            .hedefler-grid { grid-template-columns: 1fr; }
+            .project-meta { gap: 16px; }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Düğün Takip Otomasyonu</h1>
-            <h2>Sistem Analizi ve Tasarımı - Proje İlerleme Bloğu</h2>
+            <span class="header-eyebrow">Sistem Analizi &amp; Tasarımı · 2026</span>
+            <h1><em>Düğün Takip</em> Otomasyonu</h1>
+            <h2>Proje İlerleme Bloğu</h2>
+            <div class="header-divider"></div>
             <div class="project-meta">
-                <p><strong>Geliştirici:</strong> Fatih Koska</p>
-                <p><strong>Teknolojiler:</strong> Java Swing, MySQL</p>
+                <div class="meta-item">
+                    <span class="meta-label">Geliştirici</span>
+                    <span class="meta-dot"></span>
+                    <span class="meta-value">Fatih Koska</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Backend</span>
+                    <span class="meta-dot"></span>
+                    <span class="meta-value">Java Swing</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Veritabanı</span>
+                    <span class="meta-dot"></span>
+                    <span class="meta-value">MySQL</span>
+                </div>
             </div>
         </div>
     </header>
@@ -26,19 +407,71 @@
         </section>
 
         <section id="ilerleme-raporlari">
-            <h3>Haftalık İlerleme Raporları</h3>
+            <div class="section-header">
+                <h3>Haftalık İlerleme Raporları</h3>
+            </div>
             <div id="raporlar-listesi">
-                <!-- Buraya haftalık raporlar eklenecek -->
-                <div id="bos-durum" class="empty-state card">
-                    <p>Henüz bir rapor eklenmedi. Proje ilerledikçe haftalık ilerleme girdileri buraya eklenecektir.</p>
+
+                <div class="rapor-kart card">
+                    <div class="rapor-baslik">
+                        <h4>
+                            <span class="hafta-badge">1</span>
+                            1. Hafta
+                        </h4>
+                        <span class="rapor-tarih">Mart 2026</span>
+                    </div>
+                    <div class="rapor-icerik">
+
+                        <h5>Genel Değerlendirme</h5>
+                        <p>Projenin ilk haftasında sistem analizi ve tasarım aşamasına odaklanıldı. Fotoğrafçıların iş akışları incelenerek yazılımın temel gereksinimleri belirlendi. Proje kapsamı, hedef kitle ve teknik altyapı üzerine detaylı araştırmalar yapıldı.</p>
+
+                        <h5>Tamamlanan Çalışmalar</h5>
+                        <ul>
+                            <li><strong>Gereksinim Analizi:</strong> Fotoğrafçıların randevu, müşteri ve çekim takibi konusundaki ihtiyaçları belirlendi. Kullanıcı senaryoları (use case) oluşturuldu.</li>
+                            <li><strong>Veritabanı Tasarımı (ER Diyagramı):</strong> MySQL için temel tablolar tasarlandı: <code>musteriler</code>, <code>cekimler</code>, <code>randevular</code>, <code>odemeler</code>. Tablolar arası ilişkiler (foreign key) planlandı.</li>
+                            <li><strong>Proje Yapısı Kurulumu:</strong> Java projesi IntelliJ IDEA üzerinde oluşturuldu. Maven bağımlılıkları tanımlandı. Paket yapısı <code>model</code>, <code>dao</code>, <code>ui</code>, <code>util</code> olarak organize edildi.</li>
+                            <li><strong>Ana Pencere (JFrame) Tasarımı:</strong> Java Swing ile ana iskelet penceresi oluşturuldu. Menü çubuğu ve <code>JTabbedPane</code> ile temel navigasyon yapısı kuruldu.</li>
+                            <li><strong>Veritabanı Bağlantısı:</strong> <code>DBConnection</code> sınıfı yazılarak MySQL bağlantısı başarıyla test edildi. Connection pooling için altyapı planlandı.</li>
+                        </ul>
+
+                        <h5>Teknik Detaylar</h5>
+                        <div class="tech-chips">
+                            <span class="chip chip-gold">Java 17</span>
+                            <span class="chip chip-gold">Java Swing</span>
+                            <span class="chip chip-purple">MySQL 8.0</span>
+                            <span class="chip chip-purple">JDBC</span>
+                            <span class="chip chip-green">IntelliJ IDEA</span>
+                            <span class="chip chip-green">MySQL Workbench</span>
+                        </div>
+
+                        <h5>Sonraki Hafta Hedefleri</h5>
+                        <div class="hedefler-grid">
+                            <div class="hedef-item">Müşteri CRUD formlarının tamamlanması</div>
+                            <div class="hedef-item">JTable ile müşteri listeleme ekranı</div>
+                            <div class="hedef-item">DAO katmanının yazılması</div>
+                            <div class="hedef-item">Randevu takvimi taslak tasarımı</div>
+                        </div>
+
+                        <div class="ilerleme-bar-container">
+                            <div class="ilerleme-bar-header">
+                                <span class="ilerleme-etiket">Genel İlerleme</span>
+                                <span class="ilerleme-yuzde">20%</span>
+                            </div>
+                            <div class="ilerleme-bar">
+                                <div class="ilerleme-dolu" style="width: 20%;"></div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Fatih Koska. GitHub Pages ile barındırılmaktadır.</p>
+            <p>&copy; 2026 <span>Fatih Koska</span> &nbsp;·&nbsp; GitHub Pages ile barındırılmaktadır.</p>
         </div>
     </footer>
 </body>

@@ -1,0 +1,48 @@
+[
+    {
+        "id": 1,
+        "title": "1. Hafta: Proje Teklif Raporu ve Temel Analiz",
+        "date": "2 Mart 2026",
+        "content": "Düğün Takip Otomasyonu projesi için resmi teklif raporu hazırlandı ve projenin problem tanımı netleştirildi.",
+        "details": [
+            "Geleneksel ajanda ve Excel sistemlerindeki veri kaybı ve çifte rezervasyon problemleri analiz edildi.",
+            "SMART kriterlerine uygun proje hedefleri belirlendi.",
+            "Kapsam içi ve kapsam dışı özellikler ayrıştırıldı.",
+            "Sistem paydaşları (Yönetici, Sekreterya, Fotoğrafçı) tanımlandı."
+        ]
+    },
+    {
+        "id": 2,
+        "title": "2. Hafta: Gereksinim Analizi ve Teknik Altyapı",
+        "date": "9 Mart 2026",
+        "content": "Sistemin fonksiyonel gereksinimleri listelendi ve veritabanı şeması Java Swing/MySQL mimarisine göre planlandı.",
+        "details": [
+            "Kullanıcı girişi ve takvim yönetimi gibi temel fonksiyonel gereksinimler kodlandı.",
+            "Güvenlik (şifreleme) ve performans kriterleri belirlendi.",
+            "MySQL üzerinde Müşteri ve Randevu tabloları oluşturuldu.",
+            "Java Swing ile giriş ekranı tasarımları başlatıldı."
+        ]
+    },
+    {
+        "id": 3,
+        "title": "3. Hafta: UML Modelleme ve İş Akış Tasarımı",
+        "date": "16 Mart 2026",
+        "content": "Sistemin çalışma mantığı UML diyagramları ile görselleştirildi ve iş süreçleri modellendi.",
+        "details": [
+            "Aktörlerin sistemle etkileşimini gösteren Use Case diyagramı oluşturuldu.",
+            "Yeni rezervasyon oluşturma süreçleri için Activity diyagramları çizildi.",
+            "Rezervasyon nesnesinin yaşam döngüsü State Machine diyagramı ile tanımlandı."
+        ]
+    },
+    {
+        "id": 4,
+        "title": "4. Hafta: Sistem Mimarisi ve Detaylı Tasarım",
+        "date": "23 Mart 2026",
+        "content": "Sistem bileşenleri arasındaki haberleşme trafiği ve nesne yönelimli mimari detaylandırıldı.",
+        "details": [
+            "Arayüz, Servis Katmanı ve Veritabanı arasındaki Sequence diyagramları kurgulandı.",
+            "Çifte rezervasyonu engelleyen mantıksal kontrol mekanizması tasarlandı.",
+            "İptal süreçleri ve alternatif akışlar analiz edildi."
+        ]
+    }
+]

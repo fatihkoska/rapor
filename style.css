@@ -1,163 +1,74 @@
+
 :root {
-    --primary-color: #1e293b;
-    --secondary-color: #334155;
+    --primary-color: #0f172a;
+    --secondary-color: #1e293b;
     --accent-color: #3b82f6;
-    --bg-color: #f8fafc;
+    --bg-color: #f1f5f9;
     --text-color: #334155;
     --card-bg: #ffffff;
     --border-color: #e2e8f0;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     line-height: 1.6;
     background-color: var(--bg-color);
     color: var(--text-color);
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+.container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
 header {
     background-color: var(--primary-color);
-    color: #f8fafc;
-    padding: 60px 0 40px;
+    color: #fff;
+    padding: 80px 0 60px;
     text-align: center;
-    border-bottom: 5px solid var(--accent-color);
+    border-bottom: 4px solid var(--accent-color);
 }
 
-header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
-}
+header h1 { font-size: 2.8rem; margin-bottom: 10px; }
+header h2 { font-size: 1.2rem; font-weight: 300; color: #94a3b8; }
 
-header h2 {
-    font-size: 1.2rem;
-    font-weight: 300;
-    margin-bottom: 25px;
-    color: #cbd5e1;
-}
-
-.project-meta {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    font-size: 0.95rem;
-    background: rgba(255, 255, 255, 0.1);
-    display: inline-flex;
-    padding: 10px 20px;
-    border-radius: 8px;
-}
-
-.project-meta p {
-    margin: 0;
-}
-
-main {
-    padding: 50px 0;
-}
-
-h3 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-}
-
-h3::after {
-    content: "";
-    flex: 1;
-    margin-left: 15px;
-    height: 1px;
-    background-color: var(--border-color);
-}
+main { padding: 40px 0; }
 
 .card {
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    margin-bottom: 40px;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
     border: 1px solid var(--border-color);
-}
-
-#hakkinda p {
-    font-size: 1.05rem;
-    color: #475569;
 }
 
 .rapor-girdisi {
     background: var(--card-bg);
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     margin-bottom: 25px;
-    border: 1px solid var(--border-color);
-    border-left: 6px solid var(--accent-color);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.rapor-girdisi:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-}
-
-.rapor-girdisi h4 {
-    color: var(--primary-color);
-    margin-bottom: 8px;
-    font-size: 1.3rem;
-    font-weight: 600;
+    border-left: 5px solid var(--accent-color);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
 }
 
 .rapor-tarihi {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #64748b;
-    margin-bottom: 15px;
-    display: inline-block;
-    background-color: #f1f5f9;
-    padding: 4px 10px;
-    border-radius: 20px;
-}
-
-.rapor-icerigi p {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     margin-bottom: 10px;
+    display: block;
 }
 
-.rapor-icerigi ul {
-    margin-left: 20px;
-    margin-bottom: 10px;
-}
+h4 { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 15px; }
 
-.rapor-icerigi li {
-    margin-bottom: 5px;
-}
-
-.empty-state {
-    text-align: center;
-    color: #94a3b8;
-    padding: 40px 20px;
-    font-style: italic;
-}
-
-footer {
-    text-align: center;
-    padding: 25px 0;
-    background-color: var(--primary-color);
-    color: #94a3b8;
-    font-size: 0.9rem;
-    border-top: 1px solid #334155;
+ul { list-style: none; margin-top: 15px; }
+li { position: relative; padding-left: 20px; margin-bottom: 8px; font-size: 0.95rem; }
+li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
 }
